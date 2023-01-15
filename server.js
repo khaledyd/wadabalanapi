@@ -77,7 +77,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(5004, () => {
-  connect();
-  console.log("Connected to Server");
+connect().then(() => {
+  app.listen(5002, () => {
+    connect();
+    console.log("Connected to Server!");
+  });
 });
