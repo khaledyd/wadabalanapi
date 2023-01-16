@@ -68,7 +68,7 @@ app.use("/api/events", eventRoutes);
 
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://animlot.netlify.app");
+  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app/");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
@@ -76,7 +76,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: "https://animlot.netlify.app",
+    origin: "https://wadabalan.netlify.app/",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
