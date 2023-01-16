@@ -7,10 +7,11 @@ import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
 import multer  from "multer";
 import path from "path";
+import cors from "cors";
 import { fileURLToPath } from 'url';
 
 
-import cors from "cors";
+
 
 
 const app = express();
@@ -68,7 +69,7 @@ app.use("/api/events", eventRoutes);
 
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app/");
+  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
@@ -76,7 +77,7 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: "https://wadabalan.netlify.app/",
+    origin: "https://wadabalan.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
