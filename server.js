@@ -13,30 +13,20 @@ import { fileURLToPath } from 'url';
 
 
 
-
 const app = express();
 dotenv.config();
 app.use(express.json());
 
-
-
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = path.dirname(__filename);
-
-
 app.use("/images", express.static(path.join(__dirname, "/images")));
-
-
-
-
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, req.body.name);
+    cb(null, file.originalname);
   },
 });
 
@@ -44,9 +34,6 @@ const upload = multer({ storage: storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
   res.status(200).json("File has been uploaded");
 });
-
-
-
 
 const connect = async () => {
   await mongoose
@@ -65,16 +52,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/events", eventRoutes);
-
-
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
-
-
 app.use(
   cors({
     origin: "https://wadabalan.netlify.app",
@@ -83,7 +60,6 @@ app.use(
     credentials: true,
   })
 );
-
 
 
 //error handler
@@ -99,7 +75,6 @@ app.use((err, req, res, next) => {
 
 connect().then(() => {
   app.listen(5002, () => {
-    connect();
     console.log("Connected to Server!");
   });
 });
