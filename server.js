@@ -5,13 +5,10 @@ import userRoutes from "./routes/users.js";
 import eventRoutes from "./routes/events.js";
 import authRoutes from "./routes/auth.js";
 import cookieParser from "cookie-parser";
-import multer  from "multer";
+import multer from "multer";
 import path from "path";
 import cors from "cors";
-import { fileURLToPath } from 'url';
-
-
-
+import { fileURLToPath } from "url";
 
 const app = express();
 dotenv.config();
@@ -47,11 +44,18 @@ const connect = async () => {
 };
 
 //middlewares
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+
+app.use("/api/events", userRoutes, (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use("/api/users", userRoutes);
-app.use("/api/events", eventRoutes);
+
 app.use(
   cors({
     origin: "https://wadabalan.netlify.app",
@@ -60,7 +64,6 @@ app.use(
     credentials: true,
   })
 );
-
 
 //error handler
 app.use((err, req, res, next) => {
