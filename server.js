@@ -46,12 +46,14 @@ const connect = async () => {
     });
 };
 
-//middlewares
-app.use(cookieParser())
-app.use(express.json());
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/events", eventRoutes);
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://wadabalan.netlify.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
+
 app.use(
   cors({
     origin: "https://wadabalan.netlify.app",
@@ -60,6 +62,14 @@ app.use(
     credentials: true,
   })
 );
+//middlewares
+app.use(cookieParser())
+app.use(express.json());
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/events", eventRoutes);
+
+
 
 
 //error handler
